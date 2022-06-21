@@ -22,9 +22,9 @@ class OAuth
         ];
 
         $data = http_build_query(array_merge([
-            "redirect_uri" => $this->$redirect_uri,
-            "client_id" => $this->$client_id,
-            "client_secret" => $this->$client_secret
+            "redirect_uri" => $this->redirect_uri,
+            "client_id" => $this->client_id,
+            "client_secret" => $this->client_secret
         ], $specifParams));
     }
 
