@@ -15,4 +15,17 @@ class OAuth
         $this->callback_uri = $callback_uri;
     }
 
+    public function callback($grant_type,$code){
+        $specifParams = [
+            "grant_type" => $grant_type,
+            "code" => $code,
+        ];
+
+        $data = http_build_query(array_merge([
+            "redirect_uri" => $this->$redirect_uri,
+            "client_id" => $this->$client_id,
+            "client_secret" => $this->$client_secret
+        ], $specifParams));
+    }
+
 }
