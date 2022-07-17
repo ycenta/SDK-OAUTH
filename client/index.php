@@ -11,8 +11,11 @@ $OauthList  = [];
 $Oauth2 = new OAuth('facebook','https://www.facebook.com/v2.10/dialog/oauth','369130728669999','client_secret','http://localhost:8081/callback_facebook','code','public_profile','https://graph.facebook.com/v2.10/oauth/access_token');
 $OauthGougueul = new OAuth('google','oauth_url','client_id','client_secret','redirect_uri','response_type','scope','url_pour_identifier_le_token');
 
+$OauthDiscord = new OAuth('discord','https://discord.com/api/oauth2/authorize','998325991220973668','client_secret','http://localhost:8081/callback_discord','code','identify','https://discord.com/api/oauth2/token');
+
 // $OauthList[] = $Oauth2; // On push chacun de nos Oauth dans un array
 $OauthList[] = $OauthGougueul;
+$OauthList[] = $OauthDiscord;
 
 function login($OauthList){
     foreach($OauthList as $OauthEntity){
@@ -33,6 +36,11 @@ switch (strtok($route, "?")) {
     case '/callback_google':
         OAuth::callback($OauthGougueul);
         break;
+    
+    case '/callback_discord':
+        OAuth::callback($OauthDiscord);
+        break;
+      
 
     default:
         echo '404';
