@@ -57,12 +57,13 @@ class OAuth
         // url pour facebook :
         // $url = "https://graph.facebook.com/v2.10/oauth/access_token?{$data}";
 
-        $result = file_get_contents($url);
-        $result = json_decode($result, true);
-        $accessToken = $result['access_token'];
     
         if($OAuth->providerName == 'facebook'){ 
                 //ici pour facebook
+            $result = file_get_contents($url);
+            $result = json_decode($result, true);
+            $accessToken = $result['access_token'];
+
             $url = "https://graph.facebook.com/v2.10/me";
             $options = array(
                 'http' => array(
@@ -74,8 +75,23 @@ class OAuth
             $result = file_get_contents($url, false, $context);
             $result = json_decode($result, true);
             echo "<br>Hello {$result['name']}";
-        }else{
-            // Autre urls de providers à ajouter / avec elseif?
+        }elseif ($OAuth->providerName=="google") {
+            $ch = curl_init();
+            $tmp_url = $OAuth->accessTokenUrl;
+            
+            curl_setopt($ch,CURLOPT_URL, $tmp_url);
+            curl_setopt($ch,CURLOPT_POST, true);
+            curl_setopt($ch,CURLOPT_POSTFIELDS, $data);
+            curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
+
+            $result = curl_exec($ch);
+            $result = json_decode($result, true);
+            $accessToken = $result['access_token'];
+
+            $url = "https://www.googleapis.com/oauth2/v3/userinfo?access_token=$accessToken";
+            $result = file_get_contents($url);
+            $result = json_decode($result, true);
+            echo "<br>Hello {$result['name']}";
         }
      
     }
